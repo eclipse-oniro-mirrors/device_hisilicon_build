@@ -1,15 +1,30 @@
 #!/bin/bash
-# Copyright (c) 2020 Huawei Device Co., Ltd. All rights reserved.
+# Copyright (c) 2021 HiSilicon (Shanghai) Technologies CO., LIMITED.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 #
 # Compile mpp/sample project, this is the entrance script
 # error out on errors
 set -e
 OUT_DIR="$1"
-OHOS_BUILD_COMPILER="$4"
+DEVICE_PATH="$2"
+BOARD="$3"
+OHOS_BUILD_COMPILER="$5"
 function copySocLib() {
     ROOT_DIR=$(cd $(dirname "$0");pwd)
-    SOURCE_LIB="$ROOT_DIR/../../hi3516dv300/soc/lib"
-
+    SOURCE_LIB="$ROOT_DIR/../../../../device/hisilicon/hispark_taurus/sdk_liteos/mpp/lib"
+    if [ "$OHOS_BUILD_COMPILER" = "gcc" ];then
+        SOURCE_LIB="$ROOT_DIR/../../../../device/hisilicon/hi3516dv300/sdk_liteos/mpp/lib"
+    fi
     cp -rf $SOURCE_LIB/./libmpi.so $OUT_DIR/
     cp -rf $SOURCE_LIB/./lib_hiacs.so $OUT_DIR/
     cp -rf $SOURCE_LIB/./lib_hiir_auto.so $OUT_DIR/
